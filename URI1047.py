@@ -1,12 +1,34 @@
 hora_inicial, min_inicial, hora_final, min_final = [int(x) for x in input().split()]
 
-horaMinIni = hora_inicial * 60
-horaMinFin = hora_final * 60
+def calculaHora(hora_inicial, min_inicial, hora_final, min_final):
+    if hora_inicial > hora_final:
+        horas = ((24 - hora_inicial) + hora_final)
 
-def calculaHora(horaMinIni, horaMinFin):
-    if horaMinIni > horaMinFin:
-        return (horaMinIni - horaMinFin)/60
-    elif horaMinFin > horaMinIni:
-        return (horaMinFin - horaMinIni)/60
+        if min_inicial > 0:
+            min = 60 - min_inicial
 
-print("O JOGO DUROU %d HORA(S) E %d MINUTO(S)" %(calculaHora(hora_inicial, hora_final), calculaMinutos(min_inicial, min_final)))
+        minutos = (min + min_final)
+        if (hora_inicial > 0) & (min_inicial > 0):
+            horas -= 1
+
+        while (minutos > 60) | (minutos == 60):
+            horas += 1
+            minutos -= 60
+
+        return (horas, minutos)
+    elif hora_inicial < hora_final:
+        horas = hora_final - hora_inicial
+        if min_inicial > 0:
+            horas -= 1
+            minutos = (60 - min_inicial) + min_final
+            while (minutos > 60) | (minutos == 60):
+                horas += 1
+                minutos -= 60
+        else:
+            minutos += min_final
+        return (horas, minutos)
+    else:
+        return (24, 0)
+
+hora, minutos = calculaHora(hora_inicial, min_inicial, hora_final, min_final)
+print("O JOGO DUROU %d HORA(S) E %d MINUTO(S)" %(hora, minutos))
